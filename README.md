@@ -1,2 +1,2 @@
 # DSA
-This repository contains all the Data Structures and Algorithms implemented by m
+This repository contains all the Data Structures and Algorithms implemented by me
