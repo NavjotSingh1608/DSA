@@ -1,0 +1,31 @@
+class Solution {
+private:
+    bool parenthesis(char c){
+        if(c == '(' || c=='{' || c=='[') return true;
+        return false;
+    }
+
+    char reverse(char c){
+        if(c == ')') return '(';
+        if(c == '}') return '{';
+        return '[';
+    }
+
+public:
+    bool isValid(string s) {
+        stack<char> st;
+        for(auto it : s){
+            if(parenthesis(it)) st.push(it);
+            else{
+                if(st.size() == 0 || st.top() != reverse(it)){
+                    return false;
+                }
+                st.pop();
+            }
+        }
+
+        if(st.size() == 0) return true;
+
+        return false;
+    }
+};
