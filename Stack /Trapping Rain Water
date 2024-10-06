@@ -1,0 +1,56 @@
+Approach 1 :
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        // prefix sum 
+        int n = height.size();
+        
+        vector<int> pref(n,0);
+        pref[0] = height[0];
+        for(int i=1;i<n;i++){
+            pref[i] = max(pref[i-1], height[i]);
+        }
+
+        //suffix sum
+        vector<int> suff(n,0);
+        suff[n-1] = height[n-1];
+        for(int i=n-2;i>=0;i--){
+            suff[i]  = max(suff[i+1], height[i]);
+        }
+
+        int total = 0;
+        for(int i=0;i<n;i++){
+            total += min(pref[i],suff[i]) - height[i];
+        }
+
+        return total;
+    }
+};
+
+Approach 2 :
+
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int s = 0 , e = height.size() - 1;
+        int sMax = height[s], eMax = height[e], total = 0;
+        while(s<e){
+            if(sMax<=eMax){
+                s++;
+                sMax = max(sMax,height[s]);
+                if(sMax > height[s] && eMax > height[s]){
+                    total += min(eMax, sMax) - height[s];
+                }
+            }else{
+                e--;
+                eMax = max(eMax,height[e]);
+                if(sMax > height[e] && eMax > height[e]){
+                    total += min(eMax, sMax) - height[e];
+                }
+            }
+        }
+
+        return total;
+    }
+};
