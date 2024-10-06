@@ -1,0 +1,58 @@
+class Solution {
+private:
+    vector<int> nse(vector<int> v){
+        int n = v.size();
+        vector<int> arr(n,n);
+        stack<int> st;
+
+        for(int i=n-1;i>=0;i--){
+            while(!st.empty() && v[st.top()] >= v[i]){
+                st.pop();
+            }
+
+            if(!st.empty()){
+                arr[i] = st.top();
+            }
+
+            st.push(i);
+        }
+
+        return arr;
+
+    }
+
+    vector<int> psee(vector<int> v){
+        int n = v.size();
+        vector<int> arr(n,-1);
+        stack<int> st;
+
+        for(int i=0;i<n;i++){
+            while(!st.empty() && v[st.top()] > v[i]){
+                st.pop();
+            }
+
+            if(!st.empty()){
+                arr[i] = st.top();
+            }
+
+            st.push(i);
+        }
+
+        return arr;
+
+    }    
+
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        int total = 0, mod = 1e9+7, n = arr.size();
+        vector<int> next = nse(arr);
+        vector<int> prev = psee(arr);
+
+        for(int i=0;i<n;i++){
+            long long sum = (1LL*(next[i]-i) * (i-prev[i])*arr[i])%mod;
+            total = (total + sum)%mod;
+        }
+
+        return total;
+    }
+};
